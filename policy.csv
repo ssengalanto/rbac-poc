@@ -1,0 +1,55 @@
+# -----------------------------
+# Policy definitions (p lines)
+# -----------------------------
+
+# full access
+p, full_access, *, *
+
+# workspaces module
+p, workspaces:full_access, /workspaces/*, *
+p, workspaces:read, /workspaces, read
+p, workspaces:create, /workspaces, create
+p, workspaces:update, /workspaces, update
+p, workspaces:delete, /workspaces, delete
+p, workspaces:duplicate, /workspaces/duplicate, create
+p, workspaces:toggle, /workspaces/toggle, update
+
+# users module
+p, users:full_access, /users/*, *
+p, users:read, /users, read
+p, users:create, /users, create
+p, users:update, /users, update
+p, users:delete, /users, delete
+p, users:view_assigned, /users/view-assigned, read
+
+# guests module
+p, guests:full_access, /guests/*, *
+p, guests:read, /guests, read
+p, guests:create, /guests, create
+p, guests:update, /guests, update
+p, guests:delete, /guests, delete
+p, guests:bulk_upload, /guests/bulk-upload, update
+
+# -----------------------------
+# Role inheritance (g lines)
+# -----------------------------
+
+# admin role
+g, admin, full_access
+
+# account_owner role
+g, account_owner, workspaces:full_access
+g, account_owner, users:full_access
+g, account_owner, guests:full_access
+
+# event_owner role
+g, event_owner, workspaces:toggle
+g, event_owner, users:read
+g, account_owner, guests:full_access
+
+# co_host role
+g, co_host, workspaces:toggle
+g, co_host, users:view_assigned
+g, co_host, guests:read
+g, co_host, guests:create
+g, co_host, guests:update
